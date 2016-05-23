@@ -6,6 +6,8 @@ import javax.swing.*;
 
 public class Swing01 extends JFrame{
 
+	private static final long serialVersionUID = 1L;
+
 	public static void main(String[] args) {
 		new Swing01();
 	}
@@ -29,9 +31,9 @@ public class Swing01 extends JFrame{
 		JLabel label = new JLabel( "Hello Again, World!" );
 		JTextField textField = new JTextField( "Type here", 15 );
 		JTextArea area = new JTextArea( 15, 20 );
-		JScrollPane pane = new JScrollPane(area,
+		/*JScrollPane pane = new JScrollPane(area,
 							JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-							JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+							JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);*/
 		
 		area.setText( "Just a bunch of random stuff" ); 
 		label.setToolTipText( "test" );
