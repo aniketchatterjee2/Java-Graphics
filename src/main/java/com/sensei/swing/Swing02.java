@@ -41,12 +41,13 @@ public class Swing02 extends JFrame{
 		this.setVisible( true );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		WindowActionListener Window = new WindowActionListener();
+		WindowActionListener window = new WindowActionListener();
+		this.addWindowListener( window );
 	}
 	
 	public JPanel initializeJPanel( ) {
 		JPanel panel = new JPanel();
-		button = new JButton( "CLICK ME!" );
+		button = new JButton( "testing" );
 		textField = new JTextField( "", 15 ); 
 		
 		panel.add( button );
@@ -83,7 +84,7 @@ public class Swing02 extends JFrame{
 	private class WindowActionListener implements WindowListener {
 
 		public void windowOpened(WindowEvent e) {
-			textArea.append( "Window opened" );
+			textArea.append( "Window opened\n" );
 			
 		}
 
@@ -98,12 +99,12 @@ public class Swing02 extends JFrame{
 		}
 
 		public void windowIconified(WindowEvent e) {
-			// TODO Auto-generated method stub
+			textArea.append( "Window minimized\n" );
 			
 		}
 
 		public void windowDeiconified(WindowEvent e) {
-			// TODO Auto-generated method stub
+			textArea.append( "Window maximized\n" );
 			
 		}
 
