@@ -6,8 +6,9 @@ public class App {
 
 	public static void main(String[] args) {
 		
-		JPanel panel = new JPanel();
+		Panel panel = new Panel();
 		Frame frame = new Frame( "Event listener", 500, 500, panel );
+		frame.setVisible( true );
 	}
 
 }
