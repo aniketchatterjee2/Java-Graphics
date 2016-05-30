@@ -25,8 +25,8 @@ public class Frame{
 		mainFrame.setSize( width, height );
 		mainFrame.setTitle( title );
 		
-		for( int i=0; i<panels.length; i++ ) {
-			mainFrame.add(panels[i]);
+		for( JPanel panel : panels ) {
+			mainFrame.add( panel );
 		}
 		mainFrame.add( panels[0] );
 		mainFrame.setLocationRelativeTo( null );
