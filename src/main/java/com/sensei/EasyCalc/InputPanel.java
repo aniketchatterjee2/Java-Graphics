@@ -1,37 +1,45 @@
 package com.sensei.EasyCalc;
 
-import java.awt.Color;
-import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import static com.sensei.EasyCalc.Logger.log;
+
 @SuppressWarnings("serial")
-public class InputPanel extends JPanel {
+public class InputPanel extends JPanel implements ActionListener{
 	
-	private JButton button1 = new JButton( "1" );
-	private JButton button2 = new JButton( "2" );
-	private JButton button3 = new JButton( "3" );
-	private JButton button4 = new JButton( "4" );
-	private JButton button5 = new JButton( "5" );
-	private JButton button6 = new JButton( "6" );
-	private JButton button7 = new JButton( "7" );
-	private JButton button8 = new JButton( "8" );
-	private JButton button9 = new JButton( "9" );
-	
+	private String[] buttonTexts = { 
+			"C", "Del", ".", "+", "-",
+			"7", "8", "9", "*", "/",
+			"4", "5", "6", "(", ")",
+			"1", "2", "3", "0", "Enter"
+	};
+	private Font btnFont = new Font( "Helvetica", Font.PLAIN, 15 ) ;
+	private String keyPressed = null;
 	
 	public InputPanel() {
-		super.setLayout( new GridLayout( 3, 3 ) );
-		super.add( button1 );
-		super.add( button2 );
-		super.add( button3 );
-		super.add( button4 );
-		super.add( button5 );
-		super.add( button6 );
-		super.add( button7 );
-		super.add( button8 );
-		super.add( button9 );
+		super.setLayout( new GridLayout( 4, 5 ) );
+		
+		for( int i=0; i<20; i++ ) {
+			JButton btn = new JButton( buttonTexts[i] );
+			btn.setFont( btnFont );
+			btn.addActionListener( this );
+			super.add( btn );
+		}
+	}
+
+	public void actionPerformed( ActionEvent e ) {
+			keyPressed = (( JButton )e.getSource()).getText();
+			log( "Key pressed = " + keyPressed );
+	}
+	
+	public String getKeyPressed() {
+		return keyPressed;
 	}
 
 }

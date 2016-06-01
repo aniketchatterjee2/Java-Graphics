@@ -5,14 +5,14 @@ import static com.sensei.EasyCalc.Logger.log;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.GridLayout;
 
 @SuppressWarnings("serial")
 public class EasyCalc extends JFrame {
 	
-	private OutputPanel   outputPanel   = null;
-	private SettingsPanel settingsPanel = null;
-	private InputPanel    inputPanel    = null;
+	private        OutputPanel   outputPanel    = null;
+	private        SettingsPanel settingsPanel  = null;
+	private static InputPanel    inputPanel     = null;
+	private        ControlPanel  controlPanel   = null;
 	
 	public EasyCalc() {
 		setUpUI();
@@ -23,21 +23,22 @@ public class EasyCalc extends JFrame {
 		outputPanel   = new OutputPanel();
 		settingsPanel = new SettingsPanel();
 		inputPanel    = new InputPanel();
+		controlPanel  = new ControlPanel( settingsPanel, inputPanel );
 		
 		log( "\tAdding Panels to frame" );
 		Container container = super.getContentPane(); 
 		container.setLayout( new BorderLayout() );
 		super.add( outputPanel, BorderLayout.NORTH );
-		super.add( settingsPanel, BorderLayout.CENTER );
-		super.add( inputPanel, BorderLayout.SOUTH );
+		super.add( controlPanel, BorderLayout.CENTER );
 		
 		log( "\tSetting frame attributes" );
 		super.setTitle( "EasyCalc" );
 		super.setLocationRelativeTo( null );
-		super.setSize( 300, 300 );
+		super.setSize( 300, 350 );
+		super.setResizable( false );
 		super.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
-
+	
 	public static void main(String[] args) {
 		log( "Creating EasyCalc main window" );
 		
@@ -45,5 +46,6 @@ public class EasyCalc extends JFrame {
 		calculator.setVisible( true );
 		
 		log( "EasyCalc main window now active" );
+		
 	}
 }
