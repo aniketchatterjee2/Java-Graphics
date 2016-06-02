@@ -23,6 +23,14 @@ public class InputPanel extends JPanel implements ActionListener{
 	private String keyPressed = null;
 	
 	public InputPanel() {
+		setUpUI();
+	}
+	
+	private void setUpUI() {
+		makeComponents();
+	}
+	
+	private void makeComponents() {
 		super.setLayout( new GridLayout( 4, 5 ) );
 		
 		for( int i=0; i<20; i++ ) {
@@ -41,5 +49,4 @@ public class InputPanel extends JPanel implements ActionListener{
 	public String getKeyPressed() {
 		return keyPressed;
 	}
-
 }

@@ -9,10 +9,11 @@ import java.awt.Container;
 @SuppressWarnings("serial")
 public class EasyCalc extends JFrame {
 	
-	private        OutputPanel   outputPanel    = null;
+	private static OutputPanel   outputPanel    = null;
 	private        SettingsPanel settingsPanel  = null;
 	private static InputPanel    inputPanel     = null;
 	private        ControlPanel  controlPanel   = null;
+	private static String        key            = null;
 	
 	public EasyCalc() {
 		setUpUI();
@@ -44,6 +45,11 @@ public class EasyCalc extends JFrame {
 		
 		EasyCalc calculator = new EasyCalc();
 		calculator.setVisible( true );
+		
+		while( calculator.isEnabled() ) {
+			key = inputPanel.getKeyPressed();
+			outputPanel.setOutputFieldText( key );
+		}
 		
 		log( "EasyCalc main window now active" );
 		
