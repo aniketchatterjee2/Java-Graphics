@@ -44,11 +44,11 @@ public class InputPanel extends JPanel implements ActionListener{
 	}
 	
 	private void handleKeyPressEvent( String keyPressed ) {
-		if( keyPressed.matches( "[0123456789+\u2212\u00d7\u00f7()]" ) ) {
+		if( keyPressed.matches( "[0123456789+\u2212\u00d7\u00f7()\\.]" ) ) {
 			calculator.outputToPanel( keyPressed, false );
 		}
 		else if( keyPressed.equals( "C" ) ) {
-			calculator.outputToPanel( "0", true );
+			calculator.outputToPanel( "", true );
 		}
 		else {
 		}

@@ -22,7 +22,6 @@ public class OutputPanel extends JPanel {
 		outputTextField = new JTextField( 10 );
 		Font f = new Font( "helvetica", Font.PLAIN, 30 );
 		outputTextField.setFont( f );
-		outputTextField.setText( "0" );
 		outputTextField.setEditable( false );
 	}
 	
