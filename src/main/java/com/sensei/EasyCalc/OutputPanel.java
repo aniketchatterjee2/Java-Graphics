@@ -22,6 +22,7 @@ public class OutputPanel extends JPanel {
 		outputTextField = new JTextField( 10 );
 		Font f = new Font( "helvetica", Font.PLAIN, 30 );
 		outputTextField.setFont( f );
+		outputTextField.setText( "0" );
 		outputTextField.setEditable( false );
 	}
 	
@@ -29,7 +30,13 @@ public class OutputPanel extends JPanel {
 		super.add( outputTextField );
 	}
 	
-	public void setOutputFieldText( String text ) {
-		outputTextField.setText( outputTextField.getText() + text );
+	public void setOutputFieldText( String text, boolean clear ) {
+		if( clear ) {
+			outputTextField.setText( text );
+		}
+		else {
+			outputTextField.setText( outputTextField.getText() + text );
+		}
+		
 	}
 }

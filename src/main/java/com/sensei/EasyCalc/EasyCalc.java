@@ -13,7 +13,6 @@ public class EasyCalc extends JFrame {
 	private        SettingsPanel settingsPanel  = null;
 	private static InputPanel    inputPanel     = null;
 	private        ControlPanel  controlPanel   = null;
-	private static String        key            = null;
 	
 	public EasyCalc() {
 		setUpUI();
@@ -23,7 +22,7 @@ public class EasyCalc extends JFrame {
 		log( "\tCreating Panels" );
 		outputPanel   = new OutputPanel();
 		settingsPanel = new SettingsPanel();
-		inputPanel    = new InputPanel();
+		inputPanel    = new InputPanel( this );
 		controlPanel  = new ControlPanel( settingsPanel, inputPanel );
 		
 		log( "\tAdding Panels to frame" );
@@ -46,12 +45,11 @@ public class EasyCalc extends JFrame {
 		EasyCalc calculator = new EasyCalc();
 		calculator.setVisible( true );
 		
-		while( calculator.isEnabled() ) {
-			key = inputPanel.getKeyPressed();
-			outputPanel.setOutputFieldText( key );
-		}
-		
 		log( "EasyCalc main window now active" );
 		
+	}
+	
+	public void outputToPanel( String text, boolean clear ) {
+		outputPanel.setOutputFieldText( text, clear );
 	}
 }
