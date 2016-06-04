@@ -1,5 +1,7 @@
 package com.sensei.EasyCalc;
 
+import static com.sensei.EasyCalc.Logger.log;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -7,8 +9,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import static com.sensei.EasyCalc.Logger.log;
 
 @SuppressWarnings("serial")
 public class InputPanel extends JPanel implements ActionListener{
@@ -38,20 +38,22 @@ public class InputPanel extends JPanel implements ActionListener{
 		for( int i=0; i<20; i++ ) {
 			JButton btn = new JButton( buttonTexts[i] );
 			btn.setFont( btnFont );
-			btn.addActionListener( this );
 			super.add( btn );
+			btn.addActionListener( this );
 		}
 	}
 	
 	private void handleKeyPressEvent( String keyPressed ) {
-		if( keyPressed.matches( "[0123456789+\u2212\u00d7\u00f7()\\.]" ) ) {
-			calculator.outputToPanel( keyPressed, false );
+		if( keyPressed.equals( "\u00d7" ) ) {
+			keyPressed = "*" ;
 		}
-		else if( keyPressed.equals( "C" ) ) {
-			calculator.outputToPanel( "", true );
+		else if( keyPressed.equals( "\u2212" ) ) {
+			keyPressed = "-" ;
 		}
-		else {
+		else if( keyPressed.equals( "\u00f7" ) ) {
+			keyPressed = "/" ;
 		}
+		calculator.inputEntered( keyPressed );
 	}
 
 	public void actionPerformed( ActionEvent e ) {

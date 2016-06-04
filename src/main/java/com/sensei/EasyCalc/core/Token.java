@@ -8,19 +8,19 @@ public class Token {
 	public static final int COMMAND     = 3;
 	
 	private int    tokenType  = 0;
-	private String tokenValue = null;
+	private String tokenValue = "";
 	
-	public Token( int type, String value ) {
+	public Token( int type, char ch ) {
 		this.tokenType  = type;
-		this.tokenValue = value;
+		this.tokenValue += ch ;
 	}
 	
 	public int getTokenType() {
 		return tokenType;
 	}
 	
-	public void append( String str ) {
-		tokenValue += str;  
+	public void append( char ch ) {
+		tokenValue += ch;  
 	}
 	
 	public String getTokenValue() {

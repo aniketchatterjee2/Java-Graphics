@@ -1,8 +1,12 @@
 package com.sensei.EasyCalc;
 
 import java.awt.Font;
+import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import com.sensei.EasyCalc.core.Token;
 
 @SuppressWarnings("serial")
 public class OutputPanel extends JPanel {
@@ -29,13 +33,29 @@ public class OutputPanel extends JPanel {
 		super.add( outputTextField );
 	}
 	
-	public void setOutputFieldText( String text, boolean clear ) {
-		if( clear ) {
-			outputTextField.setText( text );
+	private void appendToOutput( String text ) {
+		outputTextField.setText( outputTextField.getText() + text ) ;
+	}
+
+	public void refreshOutput( ArrayList<Token> tokens ) {
+		outputTextField.setText( "" ) ;
+		for( Token token : tokens ) {
+			outputToken( token );
+		}
+	}
+	
+	private void outputToken( Token token ) {
+		if( token.getTokenValue().equals( "*" ) ) {
+			appendToOutput( "\u00d7" + " " ) ;
+		}
+		else if( token.getTokenValue().equals( "/" ) ) {
+			appendToOutput( "\u00f7" + " " );
+		}
+		else if( token.getTokenValue().equals( "-" ) ) {
+			appendToOutput( "\u2212" + " " );
 		}
 		else {
-			outputTextField.setText( outputTextField.getText() + text );
+			appendToOutput( token.getTokenValue() + " " ) ;
 		}
-		
 	}
 }

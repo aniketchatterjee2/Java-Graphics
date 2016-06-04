@@ -1,21 +1,33 @@
 package com.sensei.EasyCalc;
 
-import javax.swing.JFrame;
 import static com.sensei.EasyCalc.Logger.log;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
+import com.sensei.EasyCalc.core.Lexer;
+import com.sensei.EasyCalc.core.Token;
 
 @SuppressWarnings("serial")
 public class EasyCalc extends JFrame {
 	
-	private static OutputPanel   outputPanel    = null;
-	private        SettingsPanel settingsPanel  = null;
-	private static InputPanel    inputPanel     = null;
-	private        ControlPanel  controlPanel   = null;
+	private OutputPanel   outputPanel   = null;
+	private SettingsPanel settingsPanel = null;
+	private InputPanel    inputPanel    = null;
+	private ControlPanel  controlPanel  = null;
+	private StringBuilder expression    = null;
+	
+	private static String   CMD_ENTER   = "Enter" ;
+	private static String   CMD_CLEAR   = "C" ;
+	private static String   CMD_DELETE  = "Del" ;
+	private static String[] CMDS        = { CMD_ENTER, CMD_CLEAR, CMD_DELETE } ;
 	
 	public EasyCalc() {
 		setUpUI();
+		expression = new StringBuilder() ;
 	}
 	
 	private void setUpUI() {
@@ -49,7 +61,38 @@ public class EasyCalc extends JFrame {
 		
 	}
 	
-	public void outputToPanel( String text, boolean clear ) {
-		outputPanel.setOutputFieldText( text, clear );
+	public void appendToExpr( String text ) {
+		expression.append( text );
 	}
+	
+	public void deleteExpr( int start, int end ) {
+		expression.delete( start, end );
+	}
+	
+	public void inputEntered( String inputEntered ) {
+		if( isCommandInput( inputEntered ) ) {
+			processCommand( inputEntered ) ;
+		}
+		else {
+			expression.append( inputEntered ) ;
+			Lexer lexer = new Lexer( expression.toString() ) ;
+			ArrayList<Token> tokens = lexer.getAllTokens() ;
+			
+			outputPanel.refreshOutput( tokens ) ;
+		}
+	}
+	
+	private boolean isCommandInput( String input ) {
+		for( int i=0; i<CMDS.length; i++ ) {
+			if( input.equals( CMDS[i] ) ) {
+				return true ;
+			}
+		}
+		return false ;
+	}
+	
+	private void processCommand( String cmd ) {
+		log( "Command entered = " + cmd ) ;
+	}
+	
 }
