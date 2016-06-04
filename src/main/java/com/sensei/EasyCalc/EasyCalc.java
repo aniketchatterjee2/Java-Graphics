@@ -28,12 +28,12 @@ public class EasyCalc extends JFrame {
 	
 	public EasyCalc() {
 		expression = new StringBuilder() ;
+		createLexer( expression );
 		setUpUI();
 	}
 	
 	private void setUpUI() {
 		createPanels();
-		createLexer( expression );
 		addPanelsToFrame();
 		setFrameAttributes();
 	}
