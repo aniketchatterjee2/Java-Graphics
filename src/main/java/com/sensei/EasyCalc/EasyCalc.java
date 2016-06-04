@@ -19,6 +19,7 @@ public class EasyCalc extends JFrame {
 	private InputPanel    inputPanel    = null;
 	private ControlPanel  controlPanel  = null;
 	private StringBuilder expression    = null;
+	private Lexer         lexer         = null;
 	
 	private static String   CMD_ENTER   = "Enter" ;
 	private static String   CMD_CLEAR   = "C" ;
@@ -26,23 +27,38 @@ public class EasyCalc extends JFrame {
 	private static String[] CMDS        = { CMD_ENTER, CMD_CLEAR, CMD_DELETE } ;
 	
 	public EasyCalc() {
-		setUpUI();
 		expression = new StringBuilder() ;
+		setUpUI();
 	}
 	
 	private void setUpUI() {
+		createPanels();
+		createLexer( expression );
+		addPanelsToFrame();
+		setFrameAttributes();
+	}
+	
+	private void createPanels() {
 		log( "\tCreating Panels" );
 		outputPanel   = new OutputPanel();
 		settingsPanel = new SettingsPanel();
 		inputPanel    = new InputPanel( this );
 		controlPanel  = new ControlPanel( settingsPanel, inputPanel );
-		
+	}
+	
+	private void createLexer( StringBuilder input ) {
+		lexer = new Lexer( input.toString() );
+	}
+	
+	private void addPanelsToFrame() {
 		log( "\tAdding Panels to frame" );
 		Container container = super.getContentPane(); 
 		container.setLayout( new BorderLayout() );
 		super.add( outputPanel, BorderLayout.NORTH );
 		super.add( controlPanel, BorderLayout.CENTER );
-		
+	}
+	
+	private void setFrameAttributes() {
 		log( "\tSetting frame attributes" );
 		super.setTitle( "EasyCalc" );
 		super.setLocationRelativeTo( null );
@@ -51,22 +67,11 @@ public class EasyCalc extends JFrame {
 		super.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
 	
-	public static void main(String[] args) {
-		log( "Creating EasyCalc main window" );
-		
-		EasyCalc calculator = new EasyCalc();
-		calculator.setVisible( true );
-		
-		log( "EasyCalc main window now active" );
-		
-	}
 	
-	public void appendToExpr( String text ) {
-		expression.append( text );
-	}
-	
-	public void deleteExpr( int start, int end ) {
-		expression.delete( start, end );
+	private void refreshOutput() {
+		lexer.reset( expression.toString() );
+		ArrayList<Token> tokens = lexer.getAllTokens() ;
+		outputPanel.refreshOutput( tokens ) ;
 	}
 	
 	public void inputEntered( String inputEntered ) {
@@ -75,10 +80,7 @@ public class EasyCalc extends JFrame {
 		}
 		else {
 			expression.append( inputEntered ) ;
-			Lexer lexer = new Lexer( expression.toString() ) ;
-			ArrayList<Token> tokens = lexer.getAllTokens() ;
-			
-			outputPanel.refreshOutput( tokens ) ;
+			refreshOutput();
 		}
 	}
 	
@@ -92,7 +94,24 @@ public class EasyCalc extends JFrame {
 	}
 	
 	private void processCommand( String cmd ) {
-		log( "Command entered = " + cmd ) ;
+		if( cmd.equals( "C" ) ) {
+			expression.delete( 0, expression.length() );
+			refreshOutput();
+		}
+		else if( cmd.equals( "Del" ) ) {
+			expression.delete( expression.length()-1, expression.length() );
+			refreshOutput();
+		}
+		else if( cmd.equals( "Enter" ) ) {
+		}
 	}
 	
+	public static void main(String[] args) {
+		log( "Creating EasyCalc main window" );
+		
+		EasyCalc calculator = new EasyCalc();
+		calculator.setVisible( true );
+		
+		log( "EasyCalc main window now active" );
+	}
 }

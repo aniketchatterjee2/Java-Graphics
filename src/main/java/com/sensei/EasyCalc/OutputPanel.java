@@ -36,6 +36,10 @@ public class OutputPanel extends JPanel {
 	private void appendToOutput( String text ) {
 		outputTextField.setText( outputTextField.getText() + text ) ;
 	}
+	
+	public void setText( String text ) {
+		outputTextField.setText( text );
+	}
 
 	public void refreshOutput( ArrayList<Token> tokens ) {
 		outputTextField.setText( "" ) ;

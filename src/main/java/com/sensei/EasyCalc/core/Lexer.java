@@ -21,6 +21,15 @@ public class Lexer {
 		return tokens ;
 	}
 	
+	public void reset( String input ) {
+		this.input = input;
+		currentPos = 0;
+	}
+	
+	public void setInput( String input ) {
+		this.input = input;
+	}
+	
 	public Token getNextToken() {
 		for( ; currentPos<input.length(); currentPos++ ) {
 			char ch = input.charAt( currentPos );

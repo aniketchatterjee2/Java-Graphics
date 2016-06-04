@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class SettingsPanel extends JPanel {
 
-	private JComboBox<String> NumTypeComboBox = null;
+	private JComboBox<String> numTypeComboBox = null;
 	private static String[] numTypes = { "Arithmetic", "Time" };
 	
 	public SettingsPanel() {
@@ -19,10 +19,11 @@ public class SettingsPanel extends JPanel {
 	}
 	
 	private void createComponents() {
-		NumTypeComboBox = new JComboBox<String>( numTypes );
+		numTypeComboBox = new JComboBox<String>( numTypes );
+		numTypeComboBox.setVisible( false );
 	}
 	
 	private void putComponents() {
-		super.add( NumTypeComboBox );
+		super.add( numTypeComboBox );
 	}
 }
