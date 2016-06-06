@@ -8,8 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import com.sensei.EasyCalc.core.Lexer;
-import com.sensei.EasyCalc.core.Token;
+import com.sensei.EasyCalc.core.*;
 
 @SuppressWarnings("serial")
 public class EasyCalc extends JFrame {
@@ -20,6 +19,8 @@ public class EasyCalc extends JFrame {
 	private ControlPanel  controlPanel  = null;
 	private StringBuilder expression    = null;
 	private Lexer         lexer         = null;
+	private Parser        parser        = null;
+	private Calculator    calculator    = null;
 	
 	private static String   CMD_ENTER   = "Enter" ;
 	private static String   CMD_CLEAR   = "C" ;
@@ -28,7 +29,7 @@ public class EasyCalc extends JFrame {
 	
 	public EasyCalc() {
 		expression = new StringBuilder() ;
-		createLexer( expression );
+		createCoreComponents( expression );
 		setUpUI();
 	}
 	
@@ -46,8 +47,9 @@ public class EasyCalc extends JFrame {
 		controlPanel  = new ControlPanel( settingsPanel, inputPanel );
 	}
 	
-	private void createLexer( StringBuilder input ) {
-		lexer = new Lexer( input.toString() );
+	private void createCoreComponents( StringBuilder input ) {
+		lexer  = new Lexer ( input.toString() );
+		parser = new Parser(); 
 	}
 	
 	private void addPanelsToFrame() {
@@ -72,6 +74,17 @@ public class EasyCalc extends JFrame {
 		lexer.reset( expression.toString() );
 		ArrayList<Token> tokens = lexer.getAllTokens() ;
 		outputPanel.refreshOutput( tokens ) ;
+	}
+	
+	private void getAnswer() {
+		String[] expr;
+		String   answer;
+		
+		lexer.reset( expression.toString() );
+		ArrayList<Token> tokens = lexer.getAllTokens() ;
+		expr = parser.parse( tokens );
+		answer = calculator.calculate( expr );
+		outputPanel.setText( answer );
 	}
 	
 	public void inputEntered( String inputEntered ) {
@@ -103,6 +116,7 @@ public class EasyCalc extends JFrame {
 			refreshOutput();
 		}
 		else if( cmd.equals( "Enter" ) ) {
+			getAnswer();
 		}
 	}
 	
