@@ -77,7 +77,7 @@ public class EasyCalc extends JFrame {
 	}
 	
 	private void getAnswer() {
-		String[] expr;
+		ArrayList<Token> expr;
 		String   answer;
 		
 		lexer.reset( expression.toString() );
