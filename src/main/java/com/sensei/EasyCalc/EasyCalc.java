@@ -19,8 +19,7 @@ public class EasyCalc extends JFrame {
 	private ControlPanel  controlPanel  = null;
 	private StringBuilder expression    = null;
 	private Lexer         lexer         = null;
-	private Parser        parser        = null;
-	private Calculator    calculator    = null;
+	private Evaluator     evaluator     = null;
 	
 	private static String   CMD_ENTER   = "Enter" ;
 	private static String   CMD_CLEAR   = "C" ;
@@ -48,8 +47,8 @@ public class EasyCalc extends JFrame {
 	}
 	
 	private void createCoreComponents( StringBuilder input ) {
-		lexer  = new Lexer ( input.toString() );
-		parser = new Parser(); 
+		lexer     = new Lexer ( input.toString() );
+		evaluator = new Evaluator();
 	}
 	
 	private void addPanelsToFrame() {
@@ -69,22 +68,24 @@ public class EasyCalc extends JFrame {
 		super.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
 	
-	
 	private void refreshOutput() {
 		lexer.reset( expression.toString() );
 		ArrayList<Token> tokens = lexer.getAllTokens() ;
 		outputPanel.refreshOutput( tokens ) ;
 	}
 	
-	private void getAnswer() {
-		ArrayList<Token> expr;
-		String   answer;
+	private void calculateAndShowAnswer() {
+		Double answer;
 		
 		lexer.reset( expression.toString() );
-		ArrayList<Token> tokens = lexer.getAllTokens() ;
-		expr = parser.parse( tokens );
-		answer = calculator.calculate( expr );
-		outputPanel.setText( answer );
+		try {
+			answer = evaluator.evaluate( lexer );
+			expression.delete( 0, expression.length() );
+			expression.append( answer.toString() );
+			refreshOutput();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void inputEntered( String inputEntered ) {
@@ -116,7 +117,7 @@ public class EasyCalc extends JFrame {
 			refreshOutput();
 		}
 		else if( cmd.equals( "Enter" ) ) {
-			getAnswer();
+			calculateAndShowAnswer();
 		}
 	}
 	

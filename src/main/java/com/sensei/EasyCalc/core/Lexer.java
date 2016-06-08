@@ -1,11 +1,14 @@
 package com.sensei.EasyCalc.core;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Lexer {
 	
 	private String input      = null;
 	private int    currentPos = 0;
+	
+	private Stack<Token> pushedBackTokens = new Stack<Token>() ;
 	
 	public Lexer( String input ) {
 		this.input = input;
@@ -31,6 +34,11 @@ public class Lexer {
 	}
 	
 	public Token getNextToken() {
+		
+		if( !pushedBackTokens.isEmpty() ) {
+			return pushedBackTokens.pop() ;
+		}
+		
 		for( ; currentPos<input.length(); currentPos++ ) {
 			char ch = input.charAt( currentPos );
 			if( ch == ' ' ) {
@@ -65,6 +73,10 @@ public class Lexer {
 			}
 		}
 		return null;
+	}
+	
+	public void pushBackToken( Token t ) {
+		pushedBackTokens.push( t ) ;
 	}
 	
 	private boolean isOperator( char ch ) {
