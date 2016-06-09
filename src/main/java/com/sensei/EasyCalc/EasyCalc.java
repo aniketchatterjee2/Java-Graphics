@@ -71,7 +71,17 @@ public class EasyCalc extends JFrame {
 	private void refreshOutput() {
 		lexer.reset( expression.toString() );
 		ArrayList<Token> tokens = lexer.getAllTokens() ;
-		outputPanel.refreshOutput( tokens ) ;
+		try {
+			for( Token token : tokens ) {
+				if( token.getTokenType() == Token.NUMERIC ) {
+					Double.parseDouble( token.getTokenValue() ) ;
+				}
+			}
+			outputPanel.refreshOutput( tokens ) ;
+		}
+		catch ( NumberFormatException e ) {
+			processCommand( "Del" ) ;
+		}
 	}
 	
 	private void calculateAndShowAnswer() {
