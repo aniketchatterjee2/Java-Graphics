@@ -71,11 +71,11 @@ public class EasyCalc extends JFrame {
 	private void refreshOutput() {
 		lexer.reset( expression.toString() );
 		ArrayList<Token> tokens = lexer.getAllTokens() ;
+		Token lastToken = tokens.get( tokens.size()-1 ) ;
+
 		try {
-			for( Token token : tokens ) {
-				if( token.getTokenType() == Token.NUMERIC ) {
-					Double.parseDouble( token.getTokenValue() ) ;
-				}
+			if( lastToken.getTokenType() == Token.NUMERIC ) {
+				Double.parseDouble( lastToken.getTokenValue() ) ;
 			}
 			outputPanel.refreshOutput( tokens ) ;
 		}
