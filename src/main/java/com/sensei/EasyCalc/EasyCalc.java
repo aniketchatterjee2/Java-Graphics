@@ -4,6 +4,8 @@ import static com.sensei.EasyCalc.Logger.log;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -11,7 +13,7 @@ import javax.swing.JFrame;
 import com.sensei.EasyCalc.core.*;
 
 @SuppressWarnings("serial")
-public class EasyCalc extends JFrame {
+public class EasyCalc extends JFrame implements KeyListener{
 	
 	private OutputPanel   outputPanel   = null;
 	private SettingsPanel settingsPanel = null;
@@ -64,6 +66,9 @@ public class EasyCalc extends JFrame {
 		super.setTitle( "EasyCalc" );
 		super.setLocationRelativeTo( null );
 		super.setSize( 300, 350 );
+		super.addKeyListener( this );
+		super.setFocusable( true );
+		super.requestFocusInWindow();
 		super.setResizable( false );
 		super.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
@@ -109,6 +114,7 @@ public class EasyCalc extends JFrame {
 			expression.append( inputEntered ) ;
 			refreshOutput();
 		}
+		log( "Input entered = " + inputEntered );
 	}
 	
 	private boolean isCommandInput( String input ) {
@@ -126,8 +132,12 @@ public class EasyCalc extends JFrame {
 			refreshOutput();
 		}
 		else if( cmd.equals( "Del" ) ) {
-			expression.delete( expression.length()-1, expression.length() );
-			refreshOutput();
+			try {
+				expression.delete( expression.length()-1, expression.length() );
+				refreshOutput();
+			}
+			catch( StringIndexOutOfBoundsException e ) {
+			}
 		}
 		else if( cmd.equals( "=" ) ) {
 			calculateAndShowAnswer();
@@ -141,5 +151,30 @@ public class EasyCalc extends JFrame {
 		calculator.setVisible( true );
 		
 		log( "EasyCalc main window now active" );
+	}
+
+	public void keyTyped( KeyEvent e ) {
+		String s = e.getKeyChar() + "";
+		
+		if( s.matches( "[0-9+\\-*/()\\.]" ) ) {
+			inputPanel.doClick( s );
+		}
+		else if( e.getExtendedKeyCode() == KeyEvent.VK_ENTER || s.matches( "=" ) ) {
+			inputPanel.doClick( "=" );
+		}
+		else if( e.getExtendedKeyCode() == KeyEvent.VK_BACK_SPACE ) {
+			inputPanel.doClick( "Del" );
+		}
+		else if( s.equalsIgnoreCase( "c" ) ) {
+			inputPanel.doClick( "C" );
+		}
+	}
+
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	public void keyReleased(KeyEvent e) {
+		
 	}
 }

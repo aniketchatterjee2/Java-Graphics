@@ -1,7 +1,5 @@
 package com.sensei.EasyCalc;
 
-import static com.sensei.EasyCalc.Logger.log;
-
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -39,8 +37,28 @@ public class InputPanel extends JPanel implements ActionListener{
 		for( int i=0; i<20; i++ ) {
 			JButton btn = new JButton( buttonTexts[i] );
 			btn.setFont( btnFont );
+			btn.setFocusable( false );
 			super.add( btn );
 			btn.addActionListener( this );
+		}
+	}
+	
+	public void doClick( String text ) {
+		for( int i=0; i<20; i++ ) {
+			JButton button = (JButton) super.getComponent(i);
+			
+			if( text.equals( "*" ) && button.getText().equals( "\u00d7" ) ) {
+				button.doClick();
+			}
+			else if( text.equals( "-" ) && button.getText().equals( "\u2212" ) ) {
+				button.doClick();
+			}
+			else if( text.equals( "/" ) && button.getText().equals( "\u00f7" ) ) {
+				button.doClick();
+			}
+			else if( button.getText().equals( text ) ) {
+				button.doClick();
+			}
 		}
 	}
 	
@@ -59,7 +77,6 @@ public class InputPanel extends JPanel implements ActionListener{
 
 	public void actionPerformed( ActionEvent e ) {
 			keyPressed = (( JButton )e.getSource()).getText();
-			log( "Key pressed = " + keyPressed );
 			handleKeyPressEvent( keyPressed );
 	}
 	

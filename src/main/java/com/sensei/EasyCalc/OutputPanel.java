@@ -31,6 +31,7 @@ public class OutputPanel extends JPanel {
 		Font f = new Font( "helvetica", Font.PLAIN, 30 );
 		outputTextField.setFont( f );
 		outputTextField.setEditable( false );
+		outputTextField.setFocusable( false );
 	}
 	
 	private boolean showsError() {
