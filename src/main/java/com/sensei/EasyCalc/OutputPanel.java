@@ -1,5 +1,6 @@
 package com.sensei.EasyCalc;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
@@ -12,9 +13,12 @@ import com.sensei.EasyCalc.core.Token;
 public class OutputPanel extends JPanel {
 	
 	private JTextField outputTextField = null;
+	private static final Color ERROR_COLOR = new Color( 242, 172, 172 );
+	private Color defaultBGColor;
 	
 	public OutputPanel() {
 		setUpUI();
+		defaultBGColor = outputTextField.getBackground();
 	}
 	
 	private void setUpUI() {
@@ -29,6 +33,10 @@ public class OutputPanel extends JPanel {
 		outputTextField.setEditable( false );
 	}
 	
+	private boolean showsError() {
+		return outputTextField.getBackground().equals( ERROR_COLOR ) ;
+	}
+	
 	private void putComponents() {
 		super.add( outputTextField );
 	}
@@ -37,15 +45,20 @@ public class OutputPanel extends JPanel {
 		outputTextField.setText( outputTextField.getText() + text ) ;
 	}
 	
-	public void setText( String text ) {
-		outputTextField.setText( text );
-	}
-
 	public void refreshOutput( ArrayList<Token> tokens ) {
-		outputTextField.setText( "" ) ;
+		outputTextField.setText( "" );
+		
+		if( showsError() ) {
+			outputTextField.setBackground( defaultBGColor );
+		}
+		
 		for( Token token : tokens ) {
 			outputToken( token );
 		}
+	}
+	
+	public void showError() {
+		outputTextField.setBackground( ERROR_COLOR );
 	}
 	
 	private void outputToken( Token token ) {

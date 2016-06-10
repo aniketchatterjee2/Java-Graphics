@@ -71,23 +71,18 @@ public class EasyCalc extends JFrame {
 	private void refreshOutput() {
 		lexer.reset( expression.toString() );
 		ArrayList<Token> tokens = lexer.getAllTokens() ;
-		Token lastToken ;
-
+		
 		try {
-			lastToken = tokens.get( tokens.size()-1 );
-			if( lastToken.getTokenType() == Token.NUMERIC ) {
-				Double.parseDouble( lastToken.getTokenValue() ) ;
+			if( !tokens.isEmpty() ) {
+				Token lastToken = tokens.get( tokens.size()-1 );
+				if( lastToken.getTokenType() == Token.NUMERIC ) {
+					Double.parseDouble( lastToken.getTokenValue() ) ;
+				}
 			}
 			outputPanel.refreshOutput( tokens ) ;
 		}
 		catch ( Exception e ) {
-			if( e instanceof ArrayIndexOutOfBoundsException ) {
-				lastToken = null;
-				outputPanel.setText( "" );;
-			}
-			else {
-				processCommand( "Del" ) ;
-			}
+			processCommand( "Del" ) ;
 		}
 	}
 	
@@ -100,8 +95,9 @@ public class EasyCalc extends JFrame {
 			expression.delete( 0, expression.length() );
 			expression.append( answer.toString() );
 			refreshOutput();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} 
+		catch ( Exception e ) {
+			outputPanel.showError();
 		}
 	}
 	

@@ -20,7 +20,7 @@ public class InputPanel extends JPanel implements ActionListener{
 			"1", "2", "3", "\u00f7",
 			".", "0", "(", ")",
 	};
-	private Font btnFont = new Font( "Helvetica", Font.PLAIN, 15 ) ;
+	private Font btnFont = new Font( "Helvetica", Font.PLAIN, 17 ) ;
 	private String keyPressed = null;
 	EasyCalc calculator = null;
 	
