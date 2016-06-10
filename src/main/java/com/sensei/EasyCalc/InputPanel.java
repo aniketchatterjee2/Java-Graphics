@@ -14,10 +14,11 @@ import javax.swing.JPanel;
 public class InputPanel extends JPanel implements ActionListener{
 	
 	private String[] buttonTexts = { 
-			"C", "Del", ".", "+", "\u2212",
-			"7", "8", "9", "\u00d7", "\u00f7",
-			"4", "5", "6", "(", ")",
-			"1", "2", "3", "0", "Enter"
+			"C", "Del", "=", "+", 
+			"7", "8", "9", "\u2212",
+			"4", "5", "6", "\u00d7", 
+			"1", "2", "3", "\u00f7",
+			".", "0", "(", ")",
 	};
 	private Font btnFont = new Font( "Helvetica", Font.PLAIN, 15 ) ;
 	private String keyPressed = null;
@@ -33,7 +34,7 @@ public class InputPanel extends JPanel implements ActionListener{
 	}
 	
 	private void makeComponents() {
-		super.setLayout( new GridLayout( 4, 5 ) );
+		super.setLayout( new GridLayout( 5, 4 ) );
 		
 		for( int i=0; i<20; i++ ) {
 			JButton btn = new JButton( buttonTexts[i] );

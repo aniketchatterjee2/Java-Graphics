@@ -21,7 +21,7 @@ public class EasyCalc extends JFrame {
 	private Lexer         lexer         = null;
 	private Evaluator     evaluator     = null;
 	
-	private static String   CMD_ENTER   = "Enter" ;
+	private static String   CMD_ENTER   = "=" ;
 	private static String   CMD_CLEAR   = "C" ;
 	private static String   CMD_DELETE  = "Del" ;
 	private static String[] CMDS        = { CMD_ENTER, CMD_CLEAR, CMD_DELETE } ;
@@ -71,16 +71,23 @@ public class EasyCalc extends JFrame {
 	private void refreshOutput() {
 		lexer.reset( expression.toString() );
 		ArrayList<Token> tokens = lexer.getAllTokens() ;
-		Token lastToken = tokens.get( tokens.size()-1 ) ;
+		Token lastToken ;
 
 		try {
+			lastToken = tokens.get( tokens.size()-1 );
 			if( lastToken.getTokenType() == Token.NUMERIC ) {
 				Double.parseDouble( lastToken.getTokenValue() ) ;
 			}
 			outputPanel.refreshOutput( tokens ) ;
 		}
-		catch ( NumberFormatException e ) {
-			processCommand( "Del" ) ;
+		catch ( Exception e ) {
+			if( e instanceof ArrayIndexOutOfBoundsException ) {
+				lastToken = null;
+				outputPanel.setText( "" );;
+			}
+			else {
+				processCommand( "Del" ) ;
+			}
 		}
 	}
 	
@@ -126,7 +133,7 @@ public class EasyCalc extends JFrame {
 			expression.delete( expression.length()-1, expression.length() );
 			refreshOutput();
 		}
-		else if( cmd.equals( "Enter" ) ) {
+		else if( cmd.equals( "=" ) ) {
 			calculateAndShowAnswer();
 		}
 	}
