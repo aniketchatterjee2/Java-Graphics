@@ -46,7 +46,7 @@ public class OutputPanel extends JPanel {
 		outputTextField.setText( outputTextField.getText() + text ) ;
 	}
 	
-	public void refreshOutput( ArrayList<Token> tokens ) {
+	public void refreshOutput( ArrayList<Token> tokens, boolean showSeparator ) {
 		outputTextField.setText( "" );
 		
 		if( showsError() ) {
@@ -54,7 +54,7 @@ public class OutputPanel extends JPanel {
 		}
 		
 		for( Token token : tokens ) {
-			outputToken( token );
+			outputToken( token, showSeparator );
 		}
 	}
 	
@@ -62,18 +62,24 @@ public class OutputPanel extends JPanel {
 		outputTextField.setBackground( ERROR_COLOR );
 	}
 	
-	private void outputToken( Token token ) {
+	private void outputToken( Token token, boolean showSeparator ) {
+		
+		String separator = "" ;
+		if( showSeparator ) {
+			separator = " " ;
+		}
+		
 		if( token.getTokenValue().equals( "*" ) ) {
-			appendToOutput( "\u00d7" + " " ) ;
+			appendToOutput( "\u00d7" + separator ) ;
 		}
 		else if( token.getTokenValue().equals( "/" ) ) {
-			appendToOutput( "\u00f7" + " " );
+			appendToOutput( "\u00f7" + separator );
 		}
 		else if( token.getTokenValue().equals( "-" ) ) {
-			appendToOutput( "\u2212" + " " );
+			appendToOutput( "\u2212" + separator );
 		}
 		else {
-			appendToOutput( token.getTokenValue() + " " ) ;
+			appendToOutput( token.getTokenValue() + separator ) ;
 		}
 	}
 }

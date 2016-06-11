@@ -62,11 +62,27 @@ public class Evaluator {
 	private double calculateMDOp( Lexer lexer ) throws Exception{
 		double value = 0;
 		Token token = lexer.getNextToken();
+		int    sign = 1 ;
 		
 		if( token == null ) {
 			throw new Exception( "Incomplete expression" ) ;
 		}
 		
+		if( token.getTokenValue().equals( "-" ) ) {
+			// We have an unary negation operator.
+			sign = -1 ;
+			token = lexer.getNextToken() ;
+		}
+		else if( token.getTokenValue().equals( "+" ) ) {
+			// We have an unary positive operator.
+			sign = 1 ;
+			token = lexer.getNextToken() ;
+		}
+		
+		if( token == null ) {
+			throw new Exception( "Incomplete expression" ) ;
+		}
+
 		if( token.getTokenType() == Token.NUMERIC ) {
 			value = Double.parseDouble( token.getTokenValue() );
 		}
@@ -83,7 +99,10 @@ public class Evaluator {
 				throw new Exception( "Invalid Input" );
 			}
 		}
+		else {
+			throw new Exception( "Invalid expression." ) ;
+		}
 		
-		return value;
+		return value*sign ;
 	}
 }

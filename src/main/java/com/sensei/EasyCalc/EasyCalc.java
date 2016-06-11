@@ -73,7 +73,7 @@ public class EasyCalc extends JFrame implements KeyListener{
 		super.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
 	
-	private void refreshOutput() {
+	private void refreshOutput( boolean showSeparator ) {
 		lexer.reset( expression.toString() );
 		ArrayList<Token> tokens = lexer.getAllTokens() ;
 		
@@ -84,12 +84,8 @@ public class EasyCalc extends JFrame implements KeyListener{
 				if( lastToken.getTokenType() == Token.NUMERIC ) {
 					Double.parseDouble( lastToken.getTokenValue() ) ;
 				}
-				else if( lastToken.getTokenType() == Token.OPERATOR && 
-						tokens.get( tokens.size()-1 ).getTokenType() == Token.OPERATOR ) {
-					processCommand( "Del" );
-				}
 			}
-			outputPanel.refreshOutput( tokens ) ;
+			outputPanel.refreshOutput( tokens, showSeparator ) ;
 		}
 		catch ( Exception e ) {
 			processCommand( "Del" ) ;
@@ -104,7 +100,7 @@ public class EasyCalc extends JFrame implements KeyListener{
 			answer = evaluator.evaluate( lexer );
 			expression.delete( 0, expression.length() );
 			expression.append( answer.toString() );
-			refreshOutput();
+			refreshOutput( false );
 		} 
 		catch ( Exception e ) {
 			outputPanel.showError();
@@ -117,7 +113,7 @@ public class EasyCalc extends JFrame implements KeyListener{
 		}
 		else {
 			expression.append( inputEntered ) ;
-			refreshOutput();
+			refreshOutput( true );
 		}
 		log( "Input entered = " + inputEntered );
 	}
@@ -134,12 +130,12 @@ public class EasyCalc extends JFrame implements KeyListener{
 	private void processCommand( String cmd ) {
 		if( cmd.equals( "C" ) ) {
 			expression.delete( 0, expression.length() );
-			refreshOutput();
+			refreshOutput( true );
 		}
 		else if( cmd.equals( "Del" ) ) {
 			try {
 				expression.delete( expression.length()-1, expression.length() );
-				refreshOutput();
+				refreshOutput( true );
 			}
 			catch( StringIndexOutOfBoundsException e ) {
 			}
@@ -150,7 +146,7 @@ public class EasyCalc extends JFrame implements KeyListener{
 	}
 	
 	public static void main(String[] args) {
-		log( "Creating EasyCalc main window" );
+		log( "\nCreating EasyCalc main window" );
 		
 		EasyCalc calculator = new EasyCalc();
 		calculator.setVisible( true );
