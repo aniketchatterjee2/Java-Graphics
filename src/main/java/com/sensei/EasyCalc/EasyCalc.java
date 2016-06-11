@@ -80,8 +80,13 @@ public class EasyCalc extends JFrame implements KeyListener{
 		try {
 			if( !tokens.isEmpty() ) {
 				Token lastToken = tokens.get( tokens.size()-1 );
+				
 				if( lastToken.getTokenType() == Token.NUMERIC ) {
 					Double.parseDouble( lastToken.getTokenValue() ) ;
+				}
+				else if( lastToken.getTokenType() == Token.OPERATOR && 
+						tokens.get( tokens.size()-1 ).getTokenType() == Token.OPERATOR ) {
+					processCommand( "Del" );
 				}
 			}
 			outputPanel.refreshOutput( tokens ) ;
