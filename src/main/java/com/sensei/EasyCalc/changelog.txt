@@ -12,7 +12,12 @@ an extremely versatile calculator.
 
 Complete changelog:
     * Streamlined Look and feel of UI
-
+    * Added smart lexing and parsing methods
+    * Added logical error checking
+    * Refined font and typeface
+    * Implemented bracket usability
+    * Implemented keyboard input
+    
 ================================================================================
                     EayCalc v.1.2 Changelog:
     
