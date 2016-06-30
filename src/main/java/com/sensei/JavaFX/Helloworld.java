@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-@SuppressWarnings("restriction")
 public class Helloworld extends Application implements EventHandler<ActionEvent>{
 	
 	Button button;
